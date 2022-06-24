@@ -39,11 +39,28 @@ describe('gitty routes', () => {
   });
 
   it('should sign a user out on /delete', async () => {
+    await request
+      .agent(app)
+      .get('/api/v1/github/callback?code=42')
+      .redirects(1);
     const res = await request(app).delete('/api/v1/github/sessions');
+    // TODO: try to access the dashboard and make sure the message is the you must be signed in thing
     expect(res.body.message).toEqual('Signed out successfully!');
   });
 
-  // test being able to GET posts for all users
+  it('should be able to GET all posts', async () => {
+    const agent = request.agent(app);
+    await agent
+      .get('/api/v1/github/login')
+      .redirects(1);
+    await agent
+      .get('/api/v1/github/callback?code=42')
+      .redirects(1);
+    const res = await agent.get('/api/v1/github/posts');
+    expect(res.body).toEqual([
+      { text: 'wow! a test post', user_id: 1 },
+      { text: 'a test post from the future', user_id: 1 }]);
+  });
 
-  // test being able to POST for a signed in user
+  // TODO: test being able to POST for a signed in user
 });
