@@ -44,7 +44,8 @@ describe('gitty routes', () => {
       .get('/api/v1/github/callback?code=42')
       .redirects(1);
     const res = await request(app).delete('/api/v1/github/sessions');
-    // TODO: try to access the dashboard and make sure the message is the you must be signed in thing
+    const dashboard = await request(app).get('/api/v1/github/dashboard');
+    expect(dashboard.body.message).toEqual('You must be signed in to continue');
     expect(res.body.message).toEqual('Signed out successfully!');
   });
 
