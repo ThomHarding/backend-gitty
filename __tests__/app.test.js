@@ -70,9 +70,9 @@ describe('gitty routes', () => {
     const callback = await agent
       .get('/api/v1/github/callback?code=42')
       .redirects(1);
-    const poster_id = callback.body.id;
-    const res = await agent.post(`/api/v1/github/posts?poster=${poster_id}`);
+    const poster_id = Number(callback.body.id);
+    const res = await agent.post('/api/v1/github/posts?text=oh hello there me old chum');
     expect(res.body).toEqual(
-      { text: 'wow! a test post', user_id: poster_id });
+      { text: 'oh hello there me old chum', user_id: poster_id });
   });
 });
