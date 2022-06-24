@@ -62,5 +62,17 @@ describe('gitty routes', () => {
       { text: 'a test post from the future', user_id: 1 }]);
   });
 
-  // TODO: test being able to POST for a signed in user
+  it('should be able to POST a post for the current user', async () => {
+    const agent = request.agent(app);
+    await agent
+      .get('/api/v1/github/login')
+      .redirects(1);
+    const callback = await agent
+      .get('/api/v1/github/callback?code=42')
+      .redirects(1);
+    const poster_id = callback.body.id;
+    const res = await agent.post(`/api/v1/github/posts?poster=${poster_id}`);
+    expect(res.body).toEqual(
+      { text: 'wow! a test post', user_id: poster_id });
+  });
 });
