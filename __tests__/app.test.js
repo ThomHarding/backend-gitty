@@ -37,4 +37,13 @@ describe('gitty routes', () => {
       exp: expect.any(Number),
     });
   });
+
+  it('should sign a user out on /delete', async () => {
+    const res = await request(app).delete('/api/v1/github/sessions');
+    expect(res.body.message).toEqual('Signed out successfully!');
+  });
+
+  // test being able to GET posts for all users
+
+  // test being able to POST for a signed in user
 });
