@@ -18,7 +18,7 @@ describe('gitty routes', () => {
     const res = await request(app).get('/api/v1/github/login');
 
     expect(res.header.location).toMatch(
-      /https:\/\/github.com\/login\/oauth\/authorize\?client_id=[\w\d]+&scope=user&redirect_uri=http:\/\/localhost:7890\/api\/v1\/github\/callback/i
+      /https:\/\/github.com\/login\/oauth\/authorize\?client_id=[\w\d]+&scope=user&redirect_uri=https:\/\/thom-backend-gitty.herokuapp.com\/api\/v1\/github\/callback/i
     );
   });
 
