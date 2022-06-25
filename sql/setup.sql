@@ -12,7 +12,7 @@ CREATE TABLE github_users (
 
 CREATE TABLE posts (
   id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  text VARCHAR NOT NULL,
+  text VARCHAR(255) NOT NULL,
   user_id int,
   FOREIGN KEY (user_id) REFERENCES github_users(id)
 );
